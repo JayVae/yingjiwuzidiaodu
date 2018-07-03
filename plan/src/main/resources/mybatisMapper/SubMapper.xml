@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.risk.plan.dao.SubMapper" >
+  <resultMap id="BaseResultMap" type="com.risk.plan.entity.Sub" >
+    <id column="subid" property="subid" jdbcType="VARCHAR" />
+    <result column="subname" property="subname" jdbcType="VARCHAR" />
+    <result column="subno" property="subno" jdbcType="VARCHAR" />
+    <result column="subriskp" property="subriskp" jdbcType="VARCHAR" />
+    <result column="personlimit" property="personlimit" jdbcType="VARCHAR" />
+    <result column="goodslimit" property="goodslimit" jdbcType="VARCHAR" />
+    <result column="fundlimit" property="fundlimit" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="emerid" property="emerid" jdbcType="VARCHAR" />
+  <!-- <association property="emergency" javaType="com.risk.plan.entity.Emergency">
+  <id column="emerid" property="emerid" jdbcType="VARCHAR" />
+    <result column="emername" property="emername" jdbcType="VARCHAR" />
+    <result column="emerno" property="emerno" jdbcType="VARCHAR" />
+    <result column="goodslimit" property="goodslimit" jdbcType="DATE" />
+    <result column="emerdescribe" property="emerdescribe" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="subnum" property="subnum" jdbcType="VARCHAR" />
+  </association> -->
+  </resultMap>
+  <sql id="Base_Column_List" >
+    subid, subname, subno, subriskp, personlimit, goodslimit, fundlimit, note, emerid
+  </sql>
+ 
+ <select id="findArSubBySubids" resultMap="BaseResultMap" parameterType="map" >
+  	select * from sub where subid not in
+  	<foreach collection="list"  index="index" item="item" open="(" close=")" separator=",">
+  	#{item}
+  	</foreach>
+  	<if test="emerid != null">
+  	and emerid=#{emerid,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  
+   <select id="selectByEmerId" resultMap="BaseResultMap" parameterType="map" >
+     select * from sub 
+    where emerid = #{emerid,jdbcType=VARCHAR}
+  </select> 
+  
+ 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sub
+    where subid = #{subid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sub
+    where subid = #{subid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.risk.plan.entity.Sub" >
+    insert into sub (subid, subname, subno, 
+      subriskp, personlimit, goodslimit, 
+      fundlimit, note, emerid)
+    values (#{subid,jdbcType=VARCHAR}, #{subname,jdbcType=VARCHAR}, #{subno,jdbcType=VARCHAR}, 
+      #{subriskp,jdbcType=VARCHAR}, #{personlimit,jdbcType=VARCHAR}, #{goodslimit,jdbcType=VARCHAR}, 
+      #{fundlimit,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{emerid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.risk.plan.entity.Sub" >
+    insert into sub
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="subid != null" >
+        subid,
+      </if>
+      <if test="subname != null" >
+        subname,
+      </if>
+      <if test="subno != null" >
+        subno,
+      </if>
+      <if test="subriskp != null" >
+        subriskp,
+      </if>
+      <if test="personlimit != null" >
+        personlimit,
+      </if>
+      <if test="goodslimit != null" >
+        goodslimit,
+      </if>
+      <if test="fundlimit != null" >
+        fundlimit,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="emerid != null" >
+        emerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="subid != null" >
+        #{subid,jdbcType=VARCHAR},
+      </if>
+      <if test="subname != null" >
+        #{subname,jdbcType=VARCHAR},
+      </if>
+      <if test="subno != null" >
+        #{subno,jdbcType=VARCHAR},
+      </if>
+      <if test="subriskp != null" >
+        #{subriskp,jdbcType=VARCHAR},
+      </if>
+      <if test="personlimit != null" >
+        #{personlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodslimit != null" >
+        #{goodslimit,jdbcType=VARCHAR},
+      </if>
+      <if test="fundlimit != null" >
+        #{fundlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="emerid != null" >
+        #{emerid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.risk.plan.entity.Sub" >
+    update sub
+    <set >
+      <if test="subname != null" >
+        subname = #{subname,jdbcType=VARCHAR},
+      </if>
+      <if test="subno != null" >
+        subno = #{subno,jdbcType=VARCHAR},
+      </if>
+      <if test="subriskp != null" >
+        subriskp = #{subriskp,jdbcType=VARCHAR},
+      </if>
+      <if test="personlimit != null" >
+        personlimit = #{personlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodslimit != null" >
+        goodslimit = #{goodslimit,jdbcType=VARCHAR},
+      </if>
+      <if test="fundlimit != null" >
+        fundlimit = #{fundlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="emerid != null" >
+        emerid = #{emerid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where subid = #{subid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.risk.plan.entity.Sub" >
+    update sub
+    set subname = #{subname,jdbcType=VARCHAR},
+      subno = #{subno,jdbcType=VARCHAR},
+      subriskp = #{subriskp,jdbcType=VARCHAR},
+      personlimit = #{personlimit,jdbcType=VARCHAR},
+      goodslimit = #{goodslimit,jdbcType=VARCHAR},
+      fundlimit = #{fundlimit,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      emerid = #{emerid,jdbcType=VARCHAR}
+    where subid = #{subid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from sub
+    <if test="sortName != null" >
+      order by ${sortName}
+      <if test="sortOrder != null" >
+        ${sortOrder}
+      </if>
+    </if>
+  </select>
+  <select id="findByParams" resultMap="BaseResultMap" parameterType="map" >
+    select * from sub <where>
+    <if test="subname != null" >
+         and subname like #{subname,jdbcType=VARCHAR}
+      </if>
+      <if test="subno != null" >
+         and subno like #{subno,jdbcType=VARCHAR}
+      </if>
+      <if test="subriskp != null" >
+         and subriskp like #{subriskp,jdbcType=VARCHAR}
+      </if>
+      <if test="personlimit != null" >
+         and personlimit like #{personlimit,jdbcType=VARCHAR}
+      </if>
+      <if test="goodslimit != null" >
+         and goodslimit like #{goodslimit,jdbcType=VARCHAR}
+      </if>
+      <if test="fundlimit != null" >
+         and fundlimit like #{fundlimit,jdbcType=VARCHAR}
+      </if>
+      <if test="note != null" >
+         and note like #{note,jdbcType=VARCHAR}
+      </if>
+      <if test="emerid != null" >
+         and emerid like #{emerid,jdbcType=VARCHAR}
+      </if>
+    </where>
+      order by subno
+      <!-- <if test="sortName != null" >
+          order by ${sortName}
+	      <if test="sortOrder != null" >
+	        ${sortOrder}
+	      </if>
+      </if> -->
+     <if test="pageSize != null and startNum != null" >
+       limit #{pageSize} offset #{startNum}
+     </if>
+  </select>
+  <select id="findByParamsCount" resultType="int" parameterType="map" >
+    select count(*) from sub <where>
+    <if test="subname != null" >
+         and subname like #{subname,jdbcType=VARCHAR},
+      </if>
+      <if test="subno != null" >
+         and subno like #{subno,jdbcType=VARCHAR},
+      </if>
+      <if test="subriskp != null" >
+         and subriskp like #{subriskp,jdbcType=VARCHAR},
+      </if>
+      <if test="personlimit != null" >
+         and personlimit like #{personlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodslimit != null" >
+         and goodslimit like #{goodslimit,jdbcType=VARCHAR},
+      </if>
+      <if test="fundlimit != null" >
+         and fundlimit like #{fundlimit,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+         and note like #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="emerid != null" >
+         and emerid like #{emerid,jdbcType=VARCHAR}
+      </if>
+    </where>
+      
+  </select>
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.risk.plan.dao.FactorMapper" >
+  <resultMap id="BaseResultMap" type="com.risk.plan.entity.Factor" >
+    <id column="factorid" property="factorid" jdbcType="VARCHAR" />
+    <result column="factora" property="factora" jdbcType="VARCHAR" />
+    <result column="factorb" property="factorb" jdbcType="VARCHAR" />
+    <result column="factorc" property="factorc" jdbcType="VARCHAR" />
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="enrelationid" property="enrelationid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    factorid, factora, factorb, factorc, id, enrelationid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from factor
+    where factorid = #{factorid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from factor
+    where factorid = #{factorid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.risk.plan.entity.Factor" >
+    insert into factor (factorid, factora, factorb, 
+      factorc, id, enrelationid
+      )
+    values (#{factorid,jdbcType=VARCHAR}, #{factora,jdbcType=VARCHAR}, #{factorb,jdbcType=VARCHAR}, 
+      #{factorc,jdbcType=VARCHAR}, #{id,jdbcType=VARCHAR}, #{enrelationid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.risk.plan.entity.Factor" >
+    insert into factor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="factorid != null" >
+        factorid,
+      </if>
+      <if test="factora != null" >
+        factora,
+      </if>
+      <if test="factorb != null" >
+        factorb,
+      </if>
+      <if test="factorc != null" >
+        factorc,
+      </if>
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="enrelationid != null" >
+        enrelationid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="factorid != null" >
+        #{factorid,jdbcType=VARCHAR},
+      </if>
+      <if test="factora != null" >
+        #{factora,jdbcType=VARCHAR},
+      </if>
+      <if test="factorb != null" >
+        #{factorb,jdbcType=VARCHAR},
+      </if>
+      <if test="factorc != null" >
+        #{factorc,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="enrelationid != null" >
+        #{enrelationid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.risk.plan.entity.Factor" >
+    update factor
+    <set >
+      <if test="factora != null" >
+        factora = #{factora,jdbcType=VARCHAR},
+      </if>
+      <if test="factorb != null" >
+        factorb = #{factorb,jdbcType=VARCHAR},
+      </if>
+      <if test="factorc != null" >
+        factorc = #{factorc,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="enrelationid != null" >
+        enrelationid = #{enrelationid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where factorid = #{factorid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.risk.plan.entity.Factor" >
+    update factor
+    set factora = #{factora,jdbcType=VARCHAR},
+      factorb = #{factorb,jdbcType=VARCHAR},
+      factorc = #{factorc,jdbcType=VARCHAR},
+      id = #{id,jdbcType=VARCHAR},
+      enrelationid = #{enrelationid,jdbcType=VARCHAR}
+    where factorid = #{factorid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from factor
+    <if test="sortName != null" >
+      order by ${sortName}
+      <if test="sortOrder != null" >
+        ${sortOrder}
+      </if>
+    </if>
+  </select>
+  <select id="findByParams" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from factor
+    <where>
+     <if test="factorid != null">
+       and factorid like #{factorid,jdbcType=VARCHAR}
+     </if>
+     <if test="factora != null">
+       and factora like #{factora,jdbcType=VARCHAR}
+     </if>
+     <if test="factorb != null">
+       and factorb like #{factorb,jdbcType=VARCHAR}
+     </if>
+     <if test="factorc != null">
+       and factorc like #{factorc,jdbcType=VARCHAR}
+     </if>
+     <if test="id != null">
+       and id like #{id,jdbcType=VARCHAR}
+     </if>
+     <if test="enrelationid != null">
+       and enrelationid like #{enrelationid,jdbcType=VARCHAR}
+     </if>
+    </where>
+    <if test="sortName != null" >
+      order by ${sortName}
+      <if test="sortOrder != null" >
+        ${sortOrder}
+      </if>
+    </if>
+    <if test="pageSize != null and startNum != null" >
+      limit #{pageSize} offset #{startNum}
+    </if>
+  </select>
+  <select id="findByParamsCount" resultType="int" parameterType="map" >
+    select count(*) from factor
+    <where>
+     <if test="factorid != null">
+       and factorid like #{factorid,jdbcType=VARCHAR}
+     </if>
+     <if test="factora != null">
+       and factora like #{factora,jdbcType=VARCHAR}
+     </if>
+     <if test="factorb != null">
+       and factorb like #{factorb,jdbcType=VARCHAR}
+     </if>
+     <if test="factorc != null">
+       and factorc like #{factorc,jdbcType=VARCHAR}
+     </if>
+     <if test="id != null">
+       and id like #{id,jdbcType=VARCHAR}
+     </if>
+     <if test="enrelationid != null">
+       and enrelationid like #{enrelationid,jdbcType=VARCHAR}
+     </if>
+    </where>
+  </select>
+</mapper>

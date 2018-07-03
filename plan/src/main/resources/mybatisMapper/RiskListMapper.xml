@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.risk.plan.dao.RiskListMapper">
+  <resultMap id="BaseResultMap" type="com.risk.plan.entity.RiskList">
+    <id column="riskid" jdbcType="VARCHAR" property="riskid" />
+    <result column="riskname" jdbcType="VARCHAR" property="riskname" />
+    <result column="riskper" jdbcType="VARCHAR" property="riskper" />
+    <result column="riskno" jdbcType="VARCHAR" property="riskno" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="subid" jdbcType="VARCHAR" property="subid" />
+  <!-- <association property="sub" javaType="com.risk.plan.entity.Sub">
+  <id column="subid" property="subid" jdbcType="VARCHAR" />
+    <result column="subname" property="subname" jdbcType="VARCHAR" />
+    <result column="subno" property="subno" jdbcType="VARCHAR" />
+    <result column="subriskp" property="subriskp" jdbcType="VARCHAR" />
+    <result column="personlimit" property="personlimit" jdbcType="VARCHAR" />
+    <result column="timelimit" property="timelimit" jdbcType="VARCHAR" />
+    <result column="fundlimit" property="fundlimit" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="emerid" property="emerid" jdbcType="VARCHAR" />
+  </association> -->
+  </resultMap>
+  <sql id="Base_Column_List">
+    riskid, riskname, riskper, riskno, note, subid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from risklist
+    where riskid = #{riskid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from risklist
+    where riskid = #{riskid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.risk.plan.entity.RiskList">
+    insert into risklist (riskid, riskname, riskper, 
+      riskno, note, subid
+      )
+    values (#{riskid,jdbcType=VARCHAR}, #{riskname,jdbcType=VARCHAR}, #{riskper,jdbcType=VARCHAR}, 
+      #{riskno,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{subid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.risk.plan.entity.RiskList">
+    insert into risklist
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="riskid != null">
+        riskid,
+      </if>
+      <if test="riskname != null">
+        riskname,
+      </if>
+      <if test="riskper != null">
+        riskper,
+      </if>
+      <if test="riskno != null">
+        riskno,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="subid != null">
+        subid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="riskid != null">
+        #{riskid,jdbcType=VARCHAR},
+      </if>
+      <if test="riskname != null">
+        #{riskname,jdbcType=VARCHAR},
+      </if>
+      <if test="riskper != null">
+        #{riskper,jdbcType=VARCHAR},
+      </if>
+      <if test="riskno != null">
+        #{riskno,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="subid != null">
+        #{subid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.risk.plan.entity.RiskList">
+    update risklist
+    <set>
+      <if test="riskname != null">
+        riskname = #{riskname,jdbcType=VARCHAR},
+      </if>
+      <if test="riskper != null">
+        riskper = #{riskper,jdbcType=VARCHAR},
+      </if>
+      <if test="riskno != null">
+        riskno = #{riskno,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="subid != null">
+        subid = #{subid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where riskid = #{riskid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.risk.plan.entity.RiskList">
+    update risklist
+    set riskname = #{riskname,jdbcType=VARCHAR},
+      riskper = #{riskper,jdbcType=VARCHAR},
+      riskno = #{riskno,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      subid = #{subid,jdbcType=VARCHAR}
+    where riskid = #{riskid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from risklist
+    <if test="sortName != null">
+      order by ${sortName}
+      <if test="sortOrder != null">
+        ${sortOrder}
+      </if>
+    </if>
+  </select>
+  <select id="findByParams" parameterType="map" resultMap="BaseResultMap">
+    select *
+    from risklist
+    <where>
+     <if test="riskname != null">
+        and riskname like #{riskname,jdbcType=VARCHAR}
+      </if>
+      <if test="riskper != null">
+        and riskper like #{riskper,jdbcType=VARCHAR}
+      </if>
+      <if test="riskno != null">
+        and riskno like #{riskno,jdbcType=VARCHAR}
+      </if>
+      <if test="note != null">
+        and note like #{note,jdbcType=VARCHAR}
+      </if>
+      <if test="subid != null">
+        and subid like #{subid,jdbcType=VARCHAR}
+      </if>
+    </where>
+      
+    <if test="sortName != null">
+      order by ${sortName}
+      <if test="sortOrder != null">
+        ${sortOrder}
+      </if>
+    </if>
+    <if test="pageSize != null and startNum != null">
+      limit #{pageSize} offset #{startNum}
+    </if>
+  </select>
+  <select id="findByParamsCount" parameterType="map" resultType="int">
+    select count(*) from risklist
+    <where>
+       <if test="riskname != null">
+        and riskname like #{riskname,jdbcType=VARCHAR}
+      </if>
+      <if test="riskper != null">
+        and riskper like #{riskper,jdbcType=VARCHAR}
+      </if>
+      <if test="riskno != null">
+        and riskno like #{riskno,jdbcType=VARCHAR}
+      </if>
+      <if test="note != null">
+        and note like #{note,jdbcType=VARCHAR}
+      </if>
+      <if test="subid != null">
+        and subid like #{subid,jdbcType=VARCHAR}
+      </if>
+    </where>
+      
+  </select>
+</mapper>

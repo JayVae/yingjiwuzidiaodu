@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.risk.plan.dao.StrategyMapper" >
+  <resultMap id="BaseResultMap" type="com.risk.plan.entity.Strategy" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="person" property="person" jdbcType="VARCHAR" />
+    <result column="fund" property="fund" jdbcType="VARCHAR" />
+    <result column="goods" property="goods" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, person, fund, goods, note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from strategy
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from strategy
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.risk.plan.entity.Strategy" >
+    insert into strategy (id, name, person, 
+      fund, goods, note)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, 
+      #{fund,jdbcType=VARCHAR}, #{goods,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.risk.plan.entity.Strategy" >
+    insert into strategy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="person != null" >
+        person,
+      </if>
+      <if test="fund != null" >
+        fund,
+      </if>
+      <if test="goods != null" >
+        goods,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null" >
+        #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="fund != null" >
+        #{fund,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null" >
+        #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.risk.plan.entity.Strategy" >
+    update strategy
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null" >
+        person = #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="fund != null" >
+        fund = #{fund,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null" >
+        goods = #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.risk.plan.entity.Strategy" >
+    update strategy
+    set name = #{name,jdbcType=VARCHAR},
+      person = #{person,jdbcType=VARCHAR},
+      fund = #{fund,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from strategy 
+    <if test="sortName != null" >
+      order by ${sortName}
+      <if test="sortOrder != null" >
+        ${sortOrder}
+      </if>
+    </if>
+  </select>
+  <select id="findByParams" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from strategy
+    <where>
+     <if test="name != null">
+     and name like #{name,jdbcType=VARCHAR}
+     </if>
+    </where>
+    <if test="sortName != null" >
+      order by ${sortName}
+      <if test="sortOrder != null" >
+        ${sortOrder}
+      </if>
+    </if>
+    <if test="pageSize != null and startNum != null" >
+      limit #{pageSize} offset #{startNum}
+    </if>
+  </select>
+  <select id="findByParamsCount" resultType="int" parameterType="map" >
+    select count(*) from strategy
+  </select>
+</mapper>

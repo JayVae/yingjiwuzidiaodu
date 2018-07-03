@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.risk.plan.dao.EnRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.risk.plan.entity.EnRelation" >
+    <id column="enrelationid" property="enrelationid" jdbcType="VARCHAR" />
+    <result column="emerid" property="emerid" jdbcType="VARCHAR" />
+    <result column="subid" property="subid" jdbcType="VARCHAR" />
+    <result column="riskid" property="riskid" jdbcType="VARCHAR" />
+  <association property="emergency" javaType="com.risk.plan.entity.Emergency">
+  <id column="emerid" property="emerid" jdbcType="VARCHAR" />
+    <result column="emername" property="emername" jdbcType="VARCHAR" />
+    <result column="emerno" property="emerno" jdbcType="VARCHAR" />
+    <result column="timelimit" property="timelimit" jdbcType="DATE" />
+    <result column="emerdescribe" property="emerdescribe" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="subnum" property="subnum" jdbcType="VARCHAR" />
+  </association>
+  <association property="sub" javaType="com.risk.plan.entity.Sub">
+  <id column="subid" property="subid" jdbcType="VARCHAR" />
+    <result column="subname" property="subname" jdbcType="VARCHAR" />
+    <result column="subno" property="subno" jdbcType="VARCHAR" />
+    <result column="subriskp" property="subriskp" jdbcType="VARCHAR" />
+    <result column="personlimit" property="personlimit" jdbcType="VARCHAR" />
+    <result column="goodslimit" property="goodslimit" jdbcType="VARCHAR" />
+    <result column="fundlimit" property="fundlimit" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="emerid" property="emerid" jdbcType="VARCHAR" />
+  </association>
+  <association property="risklist" javaType="com.risk.plan.entity.RiskList">
+  <id column="riskid" jdbcType="VARCHAR" property="riskid" />
+    <result column="riskname" jdbcType="VARCHAR" property="riskname" />
+    <result column="riskper" jdbcType="VARCHAR" property="riskper" />
+    <result column="riskno" jdbcType="VARCHAR" property="riskno" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="subid" jdbcType="VARCHAR" property="subid" />
+  </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    enrelationid, emerid, subid, riskid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from enrelation
+    where enrelationid = #{enrelationid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from enrelation
+    where enrelationid = #{enrelationid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByRiskid" parameterType="java.lang.String">
+   delete from enrelation
+   where riskid=#{riskid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.risk.plan.entity.EnRelation" >
+    insert into enrelation (enrelationid, emerid, subid, 
+      riskid)
+    values (#{enrelationid,jdbcType=VARCHAR}, #{emerid,jdbcType=VARCHAR}, #{subid,jdbcType=VARCHAR}, 
+      #{riskid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.risk.plan.entity.EnRelation" >
+    insert into enrelation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="enrelationid != null" >
+        enrelationid,
+      </if>
+      <if test="emerid != null" >
+        emerid,
+      </if>
+      <if test="subid != null" >
+        subid,
+      </if>
+      <if test="riskid != null" >
+        riskid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="enrelationid != null" >
+        #{enrelationid,jdbcType=VARCHAR},
+      </if>
+      <if test="emerid != null" >
+        #{emerid,jdbcType=VARCHAR},
+      </if>
+      <if test="subid != null" >
+        #{subid,jdbcType=VARCHAR},
+      </if>
+      <if test="riskid != null" >
+        #{riskid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.risk.plan.entity.EnRelation" >
+    update enrelation
+    <set >
+      <if test="emerid != null" >
+        emerid = #{emerid,jdbcType=VARCHAR},
+      </if>
+      <if test="subid != null" >
+        subid = #{subid,jdbcType=VARCHAR},
+      </if>
+      <if test="riskid != null" >
+        riskid = #{riskid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where enrelationid = #{enrelationid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.risk.plan.entity.EnRelation" >
+    update enrelation
+    set emerid = #{emerid,jdbcType=VARCHAR},
+      subid = #{subid,jdbcType=VARCHAR},
+      riskid = #{riskid,jdbcType=VARCHAR}
+    where enrelationid = #{enrelationid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from enrelation
+    <if test="sortName != null" >
+      order by ${sortName}
+      <if test="sortOrder != null" >
+        ${sortOrder}
+      </if>
+    </if>
+  </select>
+  <select id="findByParams" resultMap="BaseResultMap" parameterType="map" >
+    select en.*,  e.* , s.* , r.*  from enrelation en, emergency e, sub s , risklist r
+    <where>
+     en.emerid=e.emerid
+     and en.subid=s.subid
+     and en.riskid=r.riskid 
+     <if test="emerid != null">
+      and en.emerid like #{emerid,jdbcType=VARCHAR}
+     </if>
+     <if test="subid != null">
+      and en.subid like #{subid,jdbcType=VARCHAR}
+     </if>
+     <if test="riskid != null">
+      and en.riskid like #{riskid,jdbcType=VARCHAR}
+     </if>  
+    </where>
+    <if test="sortName != null" >
+      order by ${sortName}
+      <if test="sortOrder != null" >
+        ${sortOrder}
+      </if>
+    </if>
+    <if test="pageSize != null and startNum != null" >
+      limit #{pageSize} offset #{startNum}
+    </if> 
+  </select>
+  <select id="findByParamsCount" resultType="int" parameterType="map" >
+   select count(*) from enrelation en, emergency e, sub s , risklist r
+    <where>
+     en.emerid=e.emerid
+     and en.subid=s.subid
+     and en.riskid=r.riskid
+     <if test="emerid != null">
+      and en.emerid like #{emerid,jdbcType=VARCHAR}
+     </if>
+     <if test="subid != null">
+      and en.subid like #{subid,jdbcType=VARCHAR}
+     </if>
+     <if test="riskid != null">
+      and en.riskid like #{riskid,jdbcType=VARCHAR}
+     </if>   
+    </where>
+  </select>
+</mapper>
