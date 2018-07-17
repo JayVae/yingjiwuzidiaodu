@@ -1,23 +1,21 @@
 package com.risk.plan.controller.transport;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.risk.plan.entity.Emergency;
 import com.risk.plan.entity.TranModel;
 import com.risk.plan.entity.Users;
 import com.risk.plan.service.box.emer.EmerTypeService;
 import com.risk.plan.service.box.emer.EmergencyService;
 import com.risk.plan.service.box.transport.TranmodelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TrsportController {

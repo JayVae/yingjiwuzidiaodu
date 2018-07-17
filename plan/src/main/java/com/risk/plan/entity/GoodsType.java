@@ -1,8 +1,8 @@
 package com.risk.plan.entity;
 
-import java.io.Serializable;
-
 import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
 @Component
 public class GoodsType implements Serializable {
     private String goodstypeid;

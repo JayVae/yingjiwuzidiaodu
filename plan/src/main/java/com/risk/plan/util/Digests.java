@@ -5,13 +5,13 @@
  *******************************************************************************/
 package com.risk.plan.util;
 
+import org.apache.commons.lang3.Validate;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
-
-import org.apache.commons.lang3.Validate;
 
 /**
  * 支持SHA-1/MD5消息摘要的工具类.
